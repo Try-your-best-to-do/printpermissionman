@@ -1,0 +1,98 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.hzxy.printpermissionman.dao.UserMapper">
+  <resultMap id="BaseResultMap" type="com.hzxy.printpermissionman.model.User">
+    <id column="username" jdbcType="VARCHAR" property="username" />
+    <result column="password" jdbcType="VARCHAR" property="password" />
+    <result column="role" jdbcType="VARCHAR" property="role" />
+    <result column="black" jdbcType="INTEGER" property="black" />
+    <result column="color" jdbcType="INTEGER" property="color" />
+  </resultMap>
+  <sql id="Base_Column_List">
+    username, password, role, black, color
+  </sql>
+  <select id="selectByPrimaryKey" parameterType="java.lang.String" resultMap="BaseResultMap">
+    select 
+    <include refid="Base_Column_List" />
+    from user
+    where username = #{username,jdbcType=VARCHAR}
+  </select>
+  <select id="selectAll" parameterType="java.lang.String" resultMap="BaseResultMap">
+    select
+    <include refid="Base_Column_List" />
+    from user
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.String">
+    delete from user
+    where username = #{username,jdbcType=VARCHAR}
+  </delete>
+  <insert id="insert" parameterType="com.hzxy.printpermissionman.model.User">
+    insert into user (username, password, role, 
+      black, color)
+    values (#{username,jdbcType=VARCHAR}, #{password,jdbcType=VARCHAR}, #{role,jdbcType=VARCHAR}, 
+      #{black,jdbcType=INTEGER}, #{color,jdbcType=INTEGER})
+  </insert>
+  <insert id="insertSelective" parameterType="com.hzxy.printpermissionman.model.User">
+    insert into user
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="username != null">
+        username,
+      </if>
+      <if test="password != null">
+        password,
+      </if>
+      <if test="role != null">
+        role,
+      </if>
+      <if test="black != null">
+        black,
+      </if>
+      <if test="color != null">
+        color,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides=",">
+      <if test="username != null">
+        #{username,jdbcType=VARCHAR},
+      </if>
+      <if test="password != null">
+        #{password,jdbcType=VARCHAR},
+      </if>
+      <if test="role != null">
+        #{role,jdbcType=VARCHAR},
+      </if>
+      <if test="black != null">
+        #{black,jdbcType=INTEGER},
+      </if>
+      <if test="color != null">
+        #{color,jdbcType=INTEGER},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.hzxy.printpermissionman.model.User">
+    update user
+    <set>
+      <if test="password != null">
+        password = #{password,jdbcType=VARCHAR},
+      </if>
+      <if test="role != null">
+        role = #{role,jdbcType=VARCHAR},
+      </if>
+      <if test="black != null">
+        black = #{black,jdbcType=INTEGER},
+      </if>
+      <if test="color != null">
+        color = #{color,jdbcType=INTEGER},
+      </if>
+    </set>
+    where username = #{username,jdbcType=VARCHAR}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.hzxy.printpermissionman.model.User">
+    update user
+    set password = #{password,jdbcType=VARCHAR},
+      role = #{role,jdbcType=VARCHAR},
+      black = #{black,jdbcType=INTEGER},
+      color = #{color,jdbcType=INTEGER}
+    where username = #{username,jdbcType=VARCHAR}
+  </update>
+</mapper>

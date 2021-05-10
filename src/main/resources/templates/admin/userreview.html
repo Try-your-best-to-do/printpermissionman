@@ -1,0 +1,405 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, shrink-to-fit=no">
+    <title>管理员-用户审核</title>
+    <link rel="stylesheet" href="../../static/homeassets/bootstrap/css/bootstrap.min.css">
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Nunito:200,200i,300,300i,400,400i,600,600i,700,700i,800,800i,900,900i">
+    <link rel="stylesheet" href="../../static/homeassets/fonts/fontawesome-all.min.css">
+    <link rel="stylesheet" href="../../static/homeassets/css/Footer-Basic.css">
+    <link rel="stylesheet" href="../../static/homeassets/css/Footer-Dark.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/3.5.2/animate.min.css">
+    <link rel="stylesheet" href="../../static/homeassets/css/Navigation-Clean.css">
+</head>
+
+<body id="page-top">
+<div id="wrapper">
+    <nav class="navbar navbar-dark align-items-start sidebar sidebar-dark accordion bg-gradient-primary p-0">
+        <div class="container-fluid d-flex flex-column p-0">
+            <a class="navbar-brand d-flex justify-content-center align-items-center sidebar-brand m-0" href="#">
+                <div class="sidebar-brand-icon rotate-n-15"><i class="fab fa-leanpub"></i></div>
+                <div class="sidebar-brand-text mx-3"><span>管理员首页</span></div>
+            </a>
+            <hr class="sidebar-divider my-0">
+            <ul class="nav navbar-nav text-light" id="accordionSidebar">
+                <li class="nav-item"><a class="nav-link" href="/admin/index"><i class="fas fa-tachometer-alt"></i><span>总览板</span></a></li>
+                <li class="nav-item"><a class="nav-link" href="/admin/userman"><i class="fas fa-table"></i><span>用户管理</span></a></li>
+                <li class="nav-item"><a class="nav-link active" href="/admin/userreview"><i class="fas fa-window-maximize"></i><span>用户审核</span></a></li>
+                <li class="nav-item"><a class="nav-link" href="/admin/inventoryman"><i class="fas fa-window-maximize"></i><span>库存管理</span></a></li>
+            </ul>
+            <div class="text-center d-none d-md-inline"><button class="btn rounded-circle border-0" id="sidebarToggle" type="button"></button></div>
+        </div>
+    </nav>
+    <div class="d-flex flex-column" id="content-wrapper">
+        <div id="content">
+            <nav class="navbar navbar-light navbar-expand bg-white shadow mb-4 topbar static-top">
+                <div class="container-fluid"><button class="btn btn-link d-md-none rounded-circle mr-3" id="sidebarToggleTop" type="button"><i class="fas fa-bars"></i></button>
+                    <form class="form-inline d-none d-sm-inline-block mr-auto ml-md-3 my-2 my-md-0 mw-100 navbar-search">
+                        <div class="input-group"><input class="bg-light form-control border-0 small" type="text" placeholder="搜索什么东西呢～">
+                            <div class="input-group-append"><button class="btn btn-primary py-0" type="button"><i class="fas fa-search"></i></button></div>
+                        </div>
+                    </form>
+                    <ul class="nav navbar-nav flex-nowrap ml-auto">
+                        <li class="nav-item dropdown d-sm-none no-arrow"><a class="dropdown-toggle nav-link" data-toggle="dropdown" aria-expanded="false" href="#"><i class="fas fa-search"></i></a>
+                            <div class="dropdown-menu dropdown-menu-right p-3 animated--grow-in" aria-labelledby="searchDropdown">
+                                <form class="form-inline mr-auto navbar-search w-100">
+                                    <div class="input-group"><input class="bg-light form-control border-0 small" type="text" placeholder="Search for ...">
+                                        <div class="input-group-append"><button class="btn btn-primary py-0" type="button"><i class="fas fa-search"></i></button></div>
+                                    </div>
+                                </form>
+                            </div>
+                        </li>
+                        <li class="nav-item dropdown no-arrow">
+                            <div class="nav-item dropdown no-arrow"><a class="dropdown-toggle nav-link" data-toggle="dropdown" aria-expanded="false" href="#"><span class="d-none d-lg-inline mr-2 text-gray-600 small"><h6 id="user"></h6></span><img class="border rounded-circle img-profile" src="../../static/homeassets/img/dogs/image1.jpeg"></a>
+                                <div
+                                        class="dropdown-menu shadow dropdown-menu-right animated--grow-in">
+                                    <a class="dropdown-item" href="/login"><i class="fas fa-sign-out-alt fa-sm fa-fw mr-2 text-gray-400"></i>注销登录</a></div>
+                            </div>
+                        </li>
+                    </ul>
+                </div>
+            </nav>
+            <div class="container-fluid">
+                <h3 class="text-dark mb-4">用户审核</h3>
+                <div class="card shadow">
+                    <div class="card-body">
+                        <div class="row">
+                            <div class="col-md-6 text-nowrap">
+                                <div id="dataTable_length" class="dataTables_length" aria-controls="dataTable"><label>展示<select class="form-control form-control-sm custom-select custom-select-sm" id="pageSize"><option value="5" selected="">5</option><option value="10">10</option><option value="25">25</option><option value="50">50</option></select>&nbsp</label>
+
+                                </div>
+                            </div>
+                            <div class="col-md-6">
+                                <div class="text-md-right dataTables_filter" id="dataTable_filter"><label><input type="search" name="name" class="form-control form-control-sm" aria-controls="dataTable" placeholder="根据用户名查询"></label></div>
+                            </div>
+                        </div>
+                        <div class="table-responsive table mt-2" id="dataTable" role="grid" aria-describedby="dataTable_info">
+                            <table class="table my-0" id="table">
+                                <thead>
+                                <tr>
+                                    <th>用户名</th>
+                                    <th>所在部门</th>
+                                    <th>黑白权限</th>
+                                    <th>彩色权限</th>
+                                    <th>申请日期</th>
+                                    <th>申请理由</th>
+                                    <th>操作</th>
+                                </tr>
+                                </thead>
+                                <tbody>
+                                </tbody>
+                                <tfoot>
+                                <tr></tr>
+                                </tfoot>
+                            </table>
+                        </div>
+                        <div class="row">
+                            <div class="col-md-6 align-self-center">
+                                <p id="dataTable_info" class="dataTables_info" role="status" aria-live="polite">Showing 1 to 10 of 27</p>
+                            </div>
+                            <div class="col-md-6">
+                                <nav class="d-lg-flex justify-content-lg-end dataTables_paginate paging_simple_numbers">
+                                    <ul class="pagination">
+                                        <li id="li1" class="page-item active"><input type="button" class="page-link" value="1"></li>
+                                        <li id="li2" class="page-item "><input type="button" class="page-link" value="2"></li>
+                                        <li id="li3" class="page-item "><input type="button" class="page-link" value="3"></li>
+                                        &nbsp;&nbsp;&nbsp;
+                                        <li class="page-item "> <label><input id="page" type="search" class="form-control" aria-controls="dataTable" placeholder="页数"></label><button  id="findByPage" type="button" class="btn btn-primary ">跳转</button></li>
+
+                                    </ul>
+                                </nav>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <footer class="bg-white sticky-footer" data-bs-hover-animate="bounce">
+            <div class="container my-auto">
+                <div class="text-center my-auto copyright"><span>Copyright © 18软1叶本国 2020</span></div>
+            </div>
+        </footer>
+    </div><a class="border rounded d-inline scroll-to-top" href="#page-top"><i class="fas fa-angle-up"></i></a></div>
+<script src="../../static/homeassets/js/jquery.min.js"></script>
+<script>
+    $(function () {
+        //初始化方法
+        if(getCookie('user')){
+            $('#user').append(getCookie('user'));
+        }
+        else{
+            $('#user').val('管理员');
+        };
+
+        //初始化
+        var pageNo = 1
+        var pageSize = $("#pageSize").val()
+        //初始化
+        init(pageNo,pageSize)
+
+        //通过的方法
+        $("#table").on('click','.btn-info',function () {
+            if (!confirm("确定通过吗？")){
+                return;
+            }
+            var name = $(this).parent().prev().prev().prev().prev().prev().prev().html()
+            // var applys = getLocalStorage('applys')
+            // var users = getLocalStorage("users")
+            // if (applys.length===0){
+            //     return
+            // }else {
+            //     for (i in applys){
+            //         for (j in users){
+            //                 if (users[j].username===name&&applys[i].user===name){
+            //                     users[j].black = applys[i].black
+            //                     users[j].color = applys[i].color
+            //                     applys[i].status="success"
+            //                     setLocalStorage("users",users)
+            //                     setLocalStorage("applys",applys)
+            //             }
+            //
+            //         }
+            //     }
+            // }
+
+            $.ajax({
+                url: "/review/pass",
+                type: "post",
+                dataType: "json",
+                data: {
+                    name:name
+                },
+                success:function (data){
+                    if (data.code==="0"){
+                        alert("审核通过！")
+                        location.reload()
+                    }
+                }
+            })
+
+
+        })
+
+        //按钮根据页数更新页面
+        $(".page-link").on('click',function (){
+            console.log($(this).val())
+            var pageSize = $("#pageSize").val()
+            var pageNo = $(this).val()
+            if (pageNo==="1"){
+                $("#li1").addClass("active")
+                $("#li2").removeClass("active")
+                $("#li3").removeClass("active")
+            }else if (pageNo==="2"){
+                $("#li1").removeClass("active")
+                $("#li2").addClass("active")
+                $("#li3").removeClass("active")
+            }else {
+                $("#li1").removeClass("active")
+                $("#li2").removeClass("active")
+                $("#li3").addClass("active")
+            }
+            init(pageNo,pageSize)
+        })
+
+        //按钮根据输入的页数更新页面
+        $("#findByPage").on('click',function (){
+            console.log($("#page").val())
+            var pageSize = $("#pageSize").val()
+            var pageNo = $("#page").val()
+            init(pageNo,pageSize)
+        })
+
+        //驳回的方法
+        $("#table").on('click','.btn-danger',function () {
+            if (!confirm("确定驳回吗？")){
+                return;
+            }
+            console.log($(this).parent().prev().prev().prev().prev().prev().prev().html())
+            var name = $(this).parent().prev().prev().prev().prev().prev().prev().html()
+            // var applys = getLocalStorage('applys')
+            // if (applys.length===0){
+            //     return
+            // }else {
+            //     for (i in applys){
+            //         if (applys[i].user===name){
+            //             // console.log("yes")
+            //             applys[i].status="fail"
+            //             setLocalStorage("applys",applys)
+            //         }
+            //     }
+            // }
+
+            $.ajax({
+                url: "/review/fail",
+                type: "post",
+                dataType: "json",
+                data: {
+                    name:name
+                },
+                success:function (data){
+                    if (data.code==="0"){
+                        alert("审核不通过！")
+                        location.reload()
+                    }
+                }
+            })
+
+        })
+
+
+    })
+    //        主要函数
+    function setCookie(name,value)//设置cookie
+    {
+        var Days = 30;
+        var exp = new Date();
+        exp.setTime(exp.getTime() + Days*24*60*60*1000);
+        document.cookie = name + "="+ escape (value) + ";expires=" + exp.toGMTString();
+    }
+
+    function getCookie(name)//拿到cookie
+    {
+        var arr,reg=new RegExp("(^| )"+name+"=([^;]*)(;|$)");
+        if(arr=document.cookie.match(reg))
+            return unescape(arr[2]);
+        else
+            return null;
+    }
+
+    function delCookie(name)//删除cookie
+    {
+        var exp = new Date();
+        exp.setTime(exp.getTime() - 1);
+        var cval=getCookie(name);
+        if(cval!=null)
+            document.cookie= name + "="+cval+";expires="+exp.toGMTString();
+    }
+
+    //添加localStorage
+    function setLocalStorage(key,value) {
+        localStorage.setItem(key,JSON.stringify(value))
+    }
+
+    //获取localStorage
+    function getLocalStorage(key) {
+        if (JSON.parse(localStorage.getItem(key))==null){
+            return []
+        }else {
+            return JSON.parse(localStorage.getItem(key))
+        }
+    }
+
+    //日期格式转化
+    Date.prototype.format = function(fmt) {
+        var o = {
+            "M+" : this.getMonth()+1,                 //月份
+            "d+" : this.getDate(),                    //日
+            "h+" : this.getHours(),                   //小时
+            "m+" : this.getMinutes(),                 //分
+            "s+" : this.getSeconds(),                 //秒
+            "q+" : Math.floor((this.getMonth()+3)/3), //季度
+            "S"  : this.getMilliseconds()             //毫秒
+        };
+        if(/(y+)/.test(fmt)) {
+            fmt=fmt.replace(RegExp.$1, (this.getFullYear()+"").substr(4 - RegExp.$1.length));
+        }
+        for(var k in o) {
+            if(new RegExp("("+ k +")").test(fmt)){
+                fmt = fmt.replace(RegExp.$1, (RegExp.$1.length==1) ? (o[k]) : (("00"+ o[k]).substr((""+ o[k]).length)));
+            }
+        }
+        return fmt;
+    }
+
+
+    //初始化与刷新
+    function init(pageNo,pageSize) {
+        $('#table').empty()
+        $('#table').append("                                <tr>\n" +
+            "                                    <th>用户名</th>\n" +
+            "                                    <th>所在部门</th>\n" +
+            "                                    <th>黑白权限</th>\n" +
+            "                                    <th>彩色权限</th>\n" +
+            "                                    <th>申请日期</th>\n" +
+            "                                    <th>申请理由</th>\n" +
+            "                                    <th>操作</th>\n" +
+            "                                </tr>")
+
+        //初始化审核表
+        var applys = null
+
+        $.ajax({
+            url: "/review/findAllReviews",
+            type: "get",
+            dataType: "json",
+            async: false,
+            data: {
+                pageNo:pageNo,
+                pageSize:pageSize
+            },
+            success:function (data){
+                if (data.data.reviews!=null){
+                    applys = data.data.reviews
+                }
+            }
+        })
+
+        // applys.reverse()
+        if (applys.length===0){
+            return
+        }else {
+            for (i in applys) {
+                if (applys[i].status==="wait"){
+                    $('#table').append("                                <tr>\n" +
+                        "                                    <td>"+applys[i].user+"</td>\n" +
+                        "                                    <td>"+applys[i].dep+"</td>\n" +
+                        "                                    <td>"+applys[i].black+"</td>\n" +
+                        "                                    <td>"+applys[i].color+"</td>\n" +
+                        "                                    <td>"+new Date(applys[i].date).format("yyyy-MM-dd")+"</td>\n" +
+                        "                                    <td>"+applys[i].reason+"</td>\n" +
+                        "                                    <td>\n" +
+                        "                                        <button class=\"btn-info\" id=\"update\">通过</button>\n" +
+                        "                                        <button class=\"btn-danger\" id=\"delete\">驳回</button>\n" +
+                        "                                    </td>\n" +
+                        "                                </tr>")
+                }else if (applys[i].status==="success"){
+                    $('#table').append("                                <tr>\n" +
+                        "                                    <td>"+applys[i].user+"</td>\n" +
+                        "                                    <td>"+applys[i].dep+"</td>\n" +
+                        "                                    <td>"+applys[i].black+"</td>\n" +
+                        "                                    <td>"+applys[i].color+"</td>\n" +
+                        "                                    <td>"+new Date(applys[i].date).format("yyyy-MM-dd")+"</td>\n" +
+                        "                                    <td>"+applys[i].reason+"</td>\n" +
+                        "                                    <td>\n" +
+                        "                                        <button class=\"btn-success\" id=\"update\">已通过</button>\n" +
+                        "                                    </td>\n" +
+                        "                                </tr>")
+                }else {
+                    $('#table').append("                                <tr>\n" +
+                        "                                    <td>"+applys[i].user+"</td>\n" +
+                        "                                    <td>"+applys[i].dep+"</td>\n" +
+                        "                                    <td>"+applys[i].black+"</td>\n" +
+                        "                                    <td>"+applys[i].color+"</td>\n" +
+                        "                                    <td>"+new Date(applys[i].date).format("yyyy-MM-dd")+"</td>\n" +
+                        "                                    <td>"+applys[i].reason+"</td>\n" +
+                        "                                    <td>\n" +
+                        "                                        <button class=\"btn-warning\" id=\"delete\">已驳回</button>\n" +
+                        "                                    </td>\n" +
+                        "                                </tr>")
+                }
+
+            }
+        }
+    }
+
+</script>
+<script src="../../static/homeassets/bootstrap/js/bootstrap.min.js"></script>
+<script src="../../static/homeassets/js/chart.min.js"></script>
+<script src="../../static/homeassets/js/bs-init.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-easing/1.4.1/jquery.easing.js"></script>
+<script src="../../static/homeassets/js/theme.js"></script>
+</body>
+
+</html>

@@ -1,0 +1,122 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.hzxy.printpermissionman.dao.ReviewMapper">
+  <resultMap id="BaseResultMap" type="com.hzxy.printpermissionman.model.Review">
+    <id column="user" jdbcType="VARCHAR" property="user" />
+    <result column="dep" jdbcType="VARCHAR" property="dep" />
+    <result column="black" jdbcType="INTEGER" property="black" />
+    <result column="color" jdbcType="INTEGER" property="color" />
+    <result column="date" jdbcType="DATE" property="date" />
+    <result column="status" jdbcType="VARCHAR" property="status" />
+    <result column="reason" jdbcType="VARCHAR" property="reason" />
+  </resultMap>
+  <sql id="Base_Column_List">
+    user, dep, black, color, date, status, reason
+  </sql>
+  <select id="selectByPrimaryKey" parameterType="java.lang.String" resultMap="BaseResultMap">
+    select 
+    <include refid="Base_Column_List" />
+    from review
+    where user = #{user,jdbcType=VARCHAR}
+  </select>
+  <select id="selectAll" parameterType="java.lang.String" resultMap="BaseResultMap">
+    select
+    <include refid="Base_Column_List" />
+    from review
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.String">
+    delete from review
+    where user = #{user,jdbcType=VARCHAR}
+  </delete>
+  <insert id="insert" parameterType="com.hzxy.printpermissionman.model.Review">
+    insert into review (user, dep, black, 
+      color, date, status, reason
+      )
+    values (#{user,jdbcType=VARCHAR}, #{dep,jdbcType=VARCHAR}, #{black,jdbcType=INTEGER}, 
+      #{color,jdbcType=INTEGER}, #{date,jdbcType=DATE}, #{status,jdbcType=VARCHAR}, #{reason,jdbcType=VARCHAR}
+      )
+  </insert>
+  <insert id="insertSelective" parameterType="com.hzxy.printpermissionman.model.Review">
+    insert into review
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="user != null">
+        user,
+      </if>
+      <if test="dep != null">
+        dep,
+      </if>
+      <if test="black != null">
+        black,
+      </if>
+      <if test="color != null">
+        color,
+      </if>
+      <if test="date != null">
+        date,
+      </if>
+      <if test="status != null">
+        status,
+      </if>
+      <if test="reason != null">
+        reason,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides=",">
+      <if test="user != null">
+        #{user,jdbcType=VARCHAR},
+      </if>
+      <if test="dep != null">
+        #{dep,jdbcType=VARCHAR},
+      </if>
+      <if test="black != null">
+        #{black,jdbcType=INTEGER},
+      </if>
+      <if test="color != null">
+        #{color,jdbcType=INTEGER},
+      </if>
+      <if test="date != null">
+        #{date,jdbcType=DATE},
+      </if>
+      <if test="status != null">
+        #{status,jdbcType=VARCHAR},
+      </if>
+      <if test="reason != null">
+        #{reason,jdbcType=VARCHAR},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.hzxy.printpermissionman.model.Review">
+    update review
+    <set>
+      <if test="dep != null">
+        dep = #{dep,jdbcType=VARCHAR},
+      </if>
+      <if test="black != null">
+        black = #{black,jdbcType=INTEGER},
+      </if>
+      <if test="color != null">
+        color = #{color,jdbcType=INTEGER},
+      </if>
+      <if test="date != null">
+        date = #{date,jdbcType=DATE},
+      </if>
+      <if test="status != null">
+        status = #{status,jdbcType=VARCHAR},
+      </if>
+      <if test="reason != null">
+        reason = #{reason,jdbcType=VARCHAR},
+      </if>
+    </set>
+    where user = #{user,jdbcType=VARCHAR}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.hzxy.printpermissionman.model.Review">
+    update review
+    set dep = #{dep,jdbcType=VARCHAR},
+      black = #{black,jdbcType=INTEGER},
+      color = #{color,jdbcType=INTEGER},
+      date = #{date,jdbcType=DATE},
+      status = #{status,jdbcType=VARCHAR},
+      reason = #{reason,jdbcType=VARCHAR}
+    where user = #{user,jdbcType=VARCHAR}
+  </update>
+</mapper>
